@@ -36,33 +36,6 @@ export class AuthHelperSalesforce extends AuthHelper implements TnsOAuth.ITnsAut
   }
   //Gets cookie domains for logging out
   public logout(): Promise<void> {
-    return new Promise<void>((resolve, reject) => {
-        try {
-            // call revoke token here 
-            var revoke_url = this.credentials.authority + this.credentials.revokeEndpoint;
-            var post_headers = {
-                // XXX: Not sure if this header is needed
-                //'Host': URL.parse(revoke_url, true),
-                'Content-Type': 'application/x-www-form-urlencoded'
-            };
-            var post_body = querystring.stringify({token: this.tokenResult.refreshToken});
-
-            http.request({
-                url: revoke_url,
-                method: 'POST',
-                headers: post_headers,
-                content: post_body
-            }).then((response: http.HttpResponse) => {
-                if (response.statusCode != 200) {
-                    throw new Error(`Failed logout with status ${ response.statusCode }.`);
-                }
-            });
-            this.tokenResult = null;
-            resolve();
-        } catch (er) {
-            reject(er);
-        }
-    });
-
-  }
+    let cookieDomains = [".salesforce.com", ".force.com"]; //need to double check this
+    return this._logout(successPage, cookieDomains);
 }
