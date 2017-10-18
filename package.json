@@ -14,7 +14,6 @@
   },
   "scripts": {
     "build": "npm i && tsc",
-    "preinstall": "npm run build",
     "demo.android": "npm run preparedemo && cd demo-angular && tns run android",
     "preparedemo": "npm run build && cd demo-angular && tns plugin remove nativescript-oauth && tns plugin add .. && tns install",
     "setup": "cd demo-angular && npm install && cd .. && npm run build && cd demo-angular && tns plugin add .. && cd .."
